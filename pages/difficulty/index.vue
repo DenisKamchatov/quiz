@@ -1,15 +1,15 @@
 <template>
-  <div class="box">
-    TEXT
+  <div class="">
+    difficultyPage
   </div>
 </template>
 
 <script>
 export default {
-  name: 'IndexPage'
+  name: 'DifficultyPage'
 }
 </script>
 
 <style lang="scss">
-  @import "~assets/scss/_variables.scss";
+
 </style>

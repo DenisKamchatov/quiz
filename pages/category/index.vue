@@ -1,15 +1,15 @@
 <template>
-  <div class="box">
-    TEXT
+  <div class="test">
+    123
   </div>
 </template>
 
 <script>
 export default {
-  name: 'IndexPage'
+  name: 'CategoryPage'
 }
 </script>
 
 <style lang="scss">
-  @import "~assets/scss/_variables.scss";
+
 </style>

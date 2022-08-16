@@ -15,5 +15,16 @@ module.exports = {
   plugins: [
   ],
   // add your custom rules here
-  rules: {}
+  rules: {
+    'vue/no-irregular-whitespace': ['error', {
+      skipComments: true
+    }],
+    'vue/multi-word-component-names': ['error', {
+      ignores: [
+        'index',
+        'Header',
+        'Default'
+      ]
+    }]
+  }
 }
