@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="box">
   </div>
 </template>
 
@@ -8,3 +8,7 @@ export default {
   name: 'IndexPage'
 }
 </script>
+
+<style lang="scss">
+@import "~assets/scss/base";
+</style>
