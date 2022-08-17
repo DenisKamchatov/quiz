@@ -1,21 +1,25 @@
 <template>
   <main class="main container">
-    <ChooseBlock :difficulties="difficulties" />
+    <ChooseBlock :difficulties="getDifficulties" />
   </main>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import ChooseBlock from '~/components/ChooseBlock.vue'
 export default {
   name: 'DifficultyPage',
   components: { ChooseBlock },
   data () {
     return {
-      difficulties: [
-        'Легко',
-        'Нормально',
-        'Сложно'
-      ]
+    }
+  },
+  computed: {
+    ...mapGetters({
+      difficulties: 'questions/getDifficulties'
+    }),
+    getDifficulties () {
+      return this.difficulties
     }
   }
 }

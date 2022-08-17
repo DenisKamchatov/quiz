@@ -1,14 +1,39 @@
 <template>
   <main class="main container">
-    <QuestionBlock />
+    <QuestionBlock :category-name="category.name" :question="currentQuestion" :question-id="questionId" :count-questions="countQuestions" />
     <div class="main__variants variants">
-      <h4 v-for="(variant, index) of variants" :key="index" class="variants__variant variant">
+      <h4
+        v-for="(variant, index) of questionVariants"
+        :key="index"
+        class="variants__variant variant"
+      >
         {{ variant }}
       </h4>
     </div>
-    <nuxt-link class="main__next-block" :to="{name: 'questions-id', params: { id: (Number($route.params.id) + 1) }}" tag="button">
+    <nuxt-link v-if="(questionId + 1) < countQuestions" :class="[{main__nextBlock: true}]" :to="{name: 'questions-id', params: { id: (questionId + 1), category: category }}" tag="button">
       <h5 class="main__next-text">
         Следующий вопрос
+      </h5>
+      <svg
+        id="Layer_1"
+        class="main__next-arrow"
+        style="enable-background:new 0 0 128 128;"
+        version="1.1"
+        viewBox="0 0 128 128"
+        xml:space="preserve"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+      >
+        <g>
+          <polygon points="79.9,98.9 114.8,64 79.9,29.1 74.2,34.8 99.5,60 36,60 36,68 99.5,68 74.2,93.2  " />
+          <rect height="8" width="8" x="16" y="60" />
+        </g>
+      </svg>
+    </nuxt-link>
+
+    <nuxt-link v-else :class="[{main__nextBlock: true}]" :to="{name: 'results'}" tag="button">
+      <h5 class="main__next-text">
+        К результатам
       </h5>
       <svg
         id="Layer_1"
@@ -30,19 +55,40 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
 import QuestionBlock from '~/components/QuestionBlock.vue'
 export default {
   name: 'QuestionPage',
   components: { QuestionBlock },
   data () {
     return {
-      variants: [
-        '1',
-        '2',
-        '3',
-        '4'
-      ]
+      category: this.$route.params.category,
+      questionId: Number(this.$route.params.id),
+      correct: false,
+      incorrect: false
     }
+  },
+  computed: {
+    ...mapGetters({
+      question: 'questions/getCurrentQuestion'
+    }),
+    currentQuestion () {
+      return this.question
+    },
+    countQuestions () {
+      return this.category.questions.length
+    },
+    questionVariants () {
+      return this.question.answers
+    }
+  },
+  mounted () {
+    this.getQuestion({ category: this.category, id: this.questionId })
+  },
+  methods: {
+    ...mapActions({
+      getQuestion: 'questions/findQuestionById'
+    })
   }
 }
 </script>
@@ -59,7 +105,7 @@ export default {
       fill: #F1F1F1;
       margin: 0 0 0 5px;
     }
-    &__next-block {
+    &__nextBlock {
       display: flex;
       align-items: center;
       position: absolute;

@@ -2,26 +2,52 @@
   <div class="main__question question">
     <div class="question__top">
       <h4 class="question__title">
-        Категория
+        {{ categoryName }}
       </h4>
     </div>
     <div class="question__body">
       <h2 class="question__text">
-        Название вопроса
+        {{ question.question }}
       </h2>
     </div>
     <h5 class="question__number">
-      Вопрос 5 из 10
+      Вопрос {{ questionId + 1 }} из {{ countQuestions }}
     </h5>
     <h5 class="question__price">
-      Цена вопроса: 1000
+      Цена вопроса: {{ question.price }}
     </h5>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'QuestionBlock'
+  name: 'QuestionBlock',
+  props: {
+    categoryName: {
+      type: String,
+      default: 'Категория'
+    },
+    question: {
+      type: Object,
+      default () {
+        return {
+          question: 'Вопрос',
+          answers: ['1', '2', '3', '4'],
+          correctAnswer: '1',
+          price: 0,
+          correct: undefined
+        }
+      }
+    },
+    questionId: {
+      type: Number,
+      default: 0
+    },
+    countQuestions: {
+      type: Number,
+      default: 0
+    }
+  }
 }
 </script>
 
