@@ -4,4 +4,62 @@ body {
   font-family: 'MontserratRegular';
   font-size: 14px;
   background-color: $background-main;
+  color: $text;
+}
+
+.container {
+  width: 95%;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 40px;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 40px;
+  font-weight: 500;
+}
+
+h3 {
+  font-size: 30px;
+  font-weight: 600;
+}
+
+// li {
+//   font-size: 30px;
+//   font-weight: 500;
+// }
+
+h4 {
+  font-size: 30px;
+  font-weight: 500;
+}
+
+h5 {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+p {
+  font-size: 24px;
+  font-weight: 500;
+}
+
+button {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.slide-fade-enter-active {
+  transition: all 1s ease;
+}
+.slide-fade-leave-active {
+  transition: all 1s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active до версии 2.1.8 */ {
+  transform: translateX(50px);
+  opacity: 0;
 }

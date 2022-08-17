@@ -1,7 +1,9 @@
 <template>
   <div>
     <Header :route="this.$route.name" />
-    <nuxt />
+    <transition name="slide-fade" mode="out-in">
+      <nuxt />
+    </transition>
   </div>
 </template>
 

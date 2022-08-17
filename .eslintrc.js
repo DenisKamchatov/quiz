@@ -23,7 +23,8 @@ module.exports = {
       ignores: [
         'index',
         'Header',
-        'Default'
+        'Default',
+        'Button'
       ]
     }]
   }

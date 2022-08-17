@@ -1,12 +1,25 @@
 <template>
-  <div class="test">
-    123
-  </div>
+  <main class="main container">
+    <ChooseBlock :categories="categories" />
+  </main>
 </template>
 
 <script>
+import ChooseBlock from '~/components/ChooseBlock.vue'
 export default {
-  name: 'CategoryPage'
+  name: 'CategoryPage',
+  components: { ChooseBlock },
+  data () {
+    return {
+      categories: [
+        'Биология',
+        'Математика',
+        'Литература',
+        'География',
+        'История'
+      ]
+    }
+  }
 }
 </script>
 
