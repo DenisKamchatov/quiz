@@ -9,13 +9,19 @@
       </h4>
     </div>
     <ul v-if="difficulties" class="difficulty__list">
-      <nuxt-link v-for="(difficulty, index) of difficulties" :key="index" class="difficulty__item" :to="{name: 'category', params: { difficulty: difficulty }}" tag="li">
-        {{ difficulty }}
+      <nuxt-link
+        v-for="(difficulty, index) of difficulties"
+        :key="index"
+        class="difficulty__item"
+        :to="{name: 'category', params: { difficulty: difficulty.name }}"
+        tag="li"
+      >
+        {{ difficulty.name }}
       </nuxt-link>
     </ul>
     <ul v-else-if="categories" class="difficulty__list">
-      <nuxt-link v-for="(category, index) of categories" :key="index" class="difficulty__item" :to="{name: 'questions-id', params: { category: category, id: 1 }}" tag="li">
-        {{ category }}
+      <nuxt-link v-for="(category, index) of categories" :key="index" class="difficulty__item" :to="{name: 'questions-id', params: { category: category, id: 0 }}" tag="li">
+        {{ category.name }}
       </nuxt-link>
     </ul>
   </div>
