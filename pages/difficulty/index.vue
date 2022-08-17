@@ -1,15 +1,22 @@
 <template>
-  <div class="">
-    difficultyPage
-  </div>
+  <main class="main container">
+    <ChooseBlock :difficulties="difficulties" />
+  </main>
 </template>
 
 <script>
+import ChooseBlock from '~/components/ChooseBlock.vue'
 export default {
-  name: 'DifficultyPage'
+  name: 'DifficultyPage',
+  components: { ChooseBlock },
+  data () {
+    return {
+      difficulties: [
+        'Легко',
+        'Нормально',
+        'Сложно'
+      ]
+    }
+  }
 }
 </script>
-
-<style lang="scss">
-
-</style>
