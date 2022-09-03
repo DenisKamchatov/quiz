@@ -24,19 +24,20 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getCategories: 'questions/getCategoriesByDifficulty'
+      getCategories: 'questions/getCategoriesByDifficulty',
+      currentDifficulty: 'questions/getCurrentDifficulty'
     }),
     categories () {
       return this.getCategories
     }
   },
+  mounted () {
+    this.findCategories(this.currentDifficulty)
+  },
   methods: {
     ...mapActions({
       findCategories: 'questions/findCategoriesByDifficulty'
     })
-  },
-  mounted () {
-    this.findCategories(this.$route.params.difficulty)
   }
 }
 </script>

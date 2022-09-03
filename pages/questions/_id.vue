@@ -1,14 +1,46 @@
 <template>
   <main class="main container">
     <QuestionBlock :category-name="category.name" :question="currentQuestion" :question-id="questionId" :count-questions="countQuestions" />
-    <div class="main__variants variants">
-      <h4
+    <div
+      v-if="choosedVariant === -1"
+      class="main__variants variants"
+    >
+      <div
         v-for="(variant, index) of questionVariants"
         :key="index"
         class="variants__variant variant"
+        @click="answerToQuestion(variant, index)"
       >
-        {{ variant }}
-      </h4>
+        <h4 v-if="currentQuestion.correct && variant === correctAnswer" :class="[{variant__body: true, variant__bodyCorrect}]">
+          {{ variant }}
+        </h4>
+        <h4 v-else-if="!currentQuestion.correct && variant !== correctAnswer && index === choosedVariant" :class="[{variant__body: true, variant__bodyIncorrect}]">
+          {{ variant }}
+        </h4>
+        <h4 v-else :class="[{variant__body: true}]">
+          {{ variant }}
+        </h4>
+      </div>
+    </div>
+    <div
+      v-else
+      class="main__variants variants"
+    >
+      <div
+        v-for="(variant, index) of questionVariants"
+        :key="index"
+        class="variants__variant variant variant__is-choosed"
+      >
+        <h4 v-if="currentQuestion.correct && variant === correctAnswer" :class="[{variant__body: true, variant__bodyCorrect}]">
+          {{ variant }}
+        </h4>
+        <h4 v-else-if="!currentQuestion.correct && variant !== correctAnswer && index === choosedVariant" :class="[{variant__body: true, variant__bodyIncorrect}]">
+          {{ variant }}
+        </h4>
+        <h4 v-else :class="[{variant__body: true}]">
+          {{ variant }}
+        </h4>
+      </div>
     </div>
     <nuxt-link v-if="(questionId + 1) < countQuestions" :class="[{main__nextBlock: true}]" :to="{name: 'questions-id', params: { id: (questionId + 1), category: category }}" tag="button">
       <h5 class="main__next-text">
@@ -55,22 +87,26 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 import QuestionBlock from '~/components/QuestionBlock.vue'
 export default {
   name: 'QuestionPage',
   components: { QuestionBlock },
   data () {
     return {
-      category: this.$route.params.category,
+      difficulty: '',
+      category: (this.$route.params.category || this.currentCategory),
       questionId: Number(this.$route.params.id),
-      correct: false,
-      incorrect: false
+      variant__bodyCorrect: false,
+      variant__bodyIncorrect: false,
+      choosedVariant: -1
     }
   },
   computed: {
     ...mapGetters({
-      question: 'questions/getCurrentQuestion'
+      question: 'questions/getCurrentQuestion',
+      getCorrectAnswer: 'questions/getCorrectAnswer',
+      currentCategory: 'questions/getCurrentCategory'
     }),
     currentQuestion () {
       return this.question
@@ -80,15 +116,40 @@ export default {
     },
     questionVariants () {
       return this.question.answers
+    },
+    correctAnswer () {
+      return this.getCorrectAnswer
     }
   },
   mounted () {
-    this.getQuestion({ category: this.category, id: this.questionId })
+    if (this.currentCategory) {
+      this.setCategory(this.currentCategory)
+      this.getQuestion({ category: this.currentCategory, id: this.questionId })
+    } else if (this.$route.params.category) {
+      this.getQuestion({ category: this.$route.params.category, id: this.questionId })
+      this.setCategory(this.$route.params.category)
+    }
   },
   methods: {
     ...mapActions({
-      getQuestion: 'questions/findQuestionById'
-    })
+      getQuestion: 'questions/findQuestionById',
+      setCategory: 'questions/setCurrentCategory'
+    }),
+    ...mapMutations({
+      setCorrectAnswer: 'questions/SET_correctAnswer'
+    }),
+    answerToQuestion (variant, index) {
+      if (this.correctAnswer === variant) {
+        this.variant__bodyCorrect = true
+        this.variant__bodyIncorrect = false
+        this.setCorrectAnswer(true)
+      } else {
+        this.variant__bodyCorrect = false
+        this.variant__bodyIncorrect = true
+        this.choosedVariant = index
+        this.setCorrectAnswer(false)
+      }
+    }
   }
 }
 </script>
@@ -121,11 +182,26 @@ export default {
     }
   }
   .variant {
-    background-color: $variant-bg;
-    color: $variant-text;
     text-align: center;
-    padding: 15px 10px;
-    border-radius: 15px;
+    cursor: pointer;
+
+    &__is-choosed {
+      cursor: default;
+    }
+    &__body {
+      background-color: $variant-bg;
+      color: $variant-text;
+      padding: 15px 10px;
+      border-radius: 15px;
+    }
+    &__bodyCorrect {
+      background-color: $variant-bg-correct;
+      color: $variant-text-action;
+    }
+    &__bodyIncorrect {
+      background-color: $variant-bg-incorrect;
+      color: $variant-text-action;
+    }
   }
   .variant:not(:first-of-type) {
     margin: 20px 0 0 0;

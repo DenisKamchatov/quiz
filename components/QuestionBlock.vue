@@ -28,7 +28,7 @@ export default {
       default: 'Категория'
     },
     question: {
-      type: Object,
+      type: [Object, Array],
       default () {
         return {
           question: 'Вопрос',

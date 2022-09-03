@@ -1,14 +1,14 @@
 <template>
   <div class="main__difficulty difficulty">
     <div class="difficulty__top">
-      <h4 v-if="difficulties" class="difficulty__title">
+      <h4 v-if="$route.name === 'difficulty'" class="difficulty__title">
         Выберите сложность
       </h4>
       <h4 v-else class="difficulty__title">
         Выберите категорию
       </h4>
     </div>
-    <ul v-if="difficulties" class="difficulty__list">
+    <ul v-if="$route.name === 'difficulty'" class="difficulty__list">
       <nuxt-link
         v-for="(difficulty, index) of difficulties"
         :key="index"
@@ -19,8 +19,14 @@
         {{ difficulty.name }}
       </nuxt-link>
     </ul>
-    <ul v-else-if="categories" class="difficulty__list">
-      <nuxt-link v-for="(category, index) of categories" :key="index" class="difficulty__item" :to="{name: 'questions-id', params: { category: category, id: 0 }}" tag="li">
+    <ul v-else-if="$route.name === 'category'" class="difficulty__list">
+      <nuxt-link
+        v-for="(category, index) of categories"
+        :key="index"
+        class="difficulty__item"
+        :to="{name: 'questions-id', params: { category: category, id: 0 }}"
+        tag="li"
+      >
         {{ category.name }}
       </nuxt-link>
     </ul>
@@ -28,17 +34,40 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
+
 export default {
   name: 'ChooseBlock',
   props: {
     difficulties: {
       type: Array,
-      required: false
+      default () {
+        return []
+      }
     },
     categories: {
       type: Array,
-      required: false
+      default () {
+        return []
+      }
     }
+  },
+  computed: {
+    ...mapGetters({
+      currentDifficulty: 'questions/getCurrentDifficulty'
+    })
+  },
+  mounted () {
+    if (this.currentDifficulty) {
+      this.setDifficulty(this.currentDifficulty)
+    } else if (this.$route.params.difficulty) {
+      this.setDifficulty(this.$route.params.difficulty)
+    }
+  },
+  methods: {
+    ...mapActions({
+      setDifficulty: 'questions/setCurrentDifficulty'
+    })
   }
 }
 </script>
