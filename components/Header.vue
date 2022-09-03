@@ -23,10 +23,10 @@
       </h1>
       <div class="header__income">
         <div class="header__income-bar">
-          <div class="header__income-progress" />
+          <div class="header__income-progress" :style="'width: ' + (getIncome / getCategoryPrice * 100) + '%'" />
         </div>
         <h5 class="header__income-count">
-          Заработок: 1200 из 3500
+          Заработок: {{ getIncome }} из {{ getCategoryPrice }}
         </h5>
       </div>
       <h5 class="header__count">
@@ -40,12 +40,25 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'Header',
   props: {
     route: {
       type: String,
       default: 'index'
+    }
+  },
+  computed: {
+    ...mapGetters({
+      income: 'getIncome',
+      categoryPrice: 'questions/getCurrentCategoryPrice'
+    }),
+    getIncome () {
+      return this.income
+    },
+    getCategoryPrice () {
+      return this.categoryPrice
     }
   }
 }
@@ -74,12 +87,14 @@ export default {
       width: 250px;
       border-radius: 15px;
       position: relative;
+      overflow: hidden;
     }
     &__income-progress {
       position: absolute;
+      left: 0;
+      top: 0;
       height: 15px;
       background-color: $money-bar-fill;
-      width: 50%;
       border-radius: 15px;
     }
     &__income-count {

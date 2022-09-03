@@ -5,19 +5,20 @@ export const state = () => ({
       categories: [
         {
           name: 'Математика',
+          categoryPrice: 1000,
           questions: [
             {
               question: 'Сколько будет 1+3?',
               answers: ['5', '1', '4', '2'],
               correctAnswer: '4',
-              price: 100,
+              price: 400,
               correct: undefined
             },
             {
               question: 'Сколько будет 1+5?',
               answers: ['1', '2', '4', '6'],
               correctAnswer: '6',
-              price: 100,
+              price: 500,
               correct: undefined
             }
           ]
@@ -40,10 +41,10 @@ export const state = () => ({
     }
   ],
   categoriesByDifficulty: [],
-  categoryPrice: 0,
   currentQuestion: [],
   currentDifficulty: undefined,
-  currentCategory: undefined
+  currentCategory: undefined,
+  currentCategoryPrice: undefined
 })
 
 export const actions = {
@@ -75,6 +76,7 @@ export const mutations = {
     state.currentDifficulty = difficulty
   },
   SET_currentCategory (state, category) {
+    state.currentCategoryPrice = category.categoryPrice
     state.currentCategory = category
   },
   SET_correctAnswer (state, correct) {
@@ -103,5 +105,8 @@ export const getters = {
   },
   getCurrentCategory (state) {
     return state.currentCategory
+  },
+  getCurrentCategoryPrice (state) {
+    return state.currentCategoryPrice
   }
 }

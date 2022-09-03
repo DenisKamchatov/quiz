@@ -6,7 +6,7 @@
       </h4>
     </div>
     <div class="result__body">
-      <h2 v-if="win" class="result__text">
+      <h2 v-if="countingIncome" class="result__text">
         <span class="result__paragraph">
           Поздравляю!
         </span>
@@ -26,20 +26,33 @@
         <Button text="На главную" link="/" />
       </div>
       <div class="result__button-results">
-        <Button text="Посмотреть результаты" link="/results/info" />
+        <Button text="Посмотреть результаты" link="/results/info" type="resetDataIncomes" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import Button from '~/components/UI/Button.vue'
 export default {
   name: 'ResultMain',
   components: { Button },
   data () {
     return {
-      win: true
+    }
+  },
+  computed: {
+    ...mapGetters({
+      income: 'getIncome',
+      categoryPrice: 'questions/getCurrentCategoryPrice'
+    }),
+    countingIncome () {
+      if (this.income >= this.categoryPrice) {
+        return true
+      } else {
+        return false
+      }
     }
   }
 }

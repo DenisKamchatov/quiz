@@ -27,11 +27,20 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import Button from '~/components/UI/Button.vue'
 export default {
   name: 'IndexPage',
   components: { Button },
-  transition: 'bounce'
+  transition: 'bounce',
+  mounted () {
+    this.resetIncome()
+  },
+  methods: {
+    ...mapActions({
+      resetIncome: 'setIncome'
+    })
+  }
 }
 </script>
 

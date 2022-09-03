@@ -136,13 +136,16 @@ export default {
       setCategory: 'questions/setCurrentCategory'
     }),
     ...mapMutations({
-      setCorrectAnswer: 'questions/SET_correctAnswer'
+      setCorrectAnswer: 'questions/SET_correctAnswer',
+      setIncomeCount: 'SET_incomeCount'
     }),
     answerToQuestion (variant, index) {
       if (this.correctAnswer === variant) {
         this.variant__bodyCorrect = true
         this.variant__bodyIncorrect = false
+        this.choosedVariant = index
         this.setCorrectAnswer(true)
+        this.setIncomeCount(this.currentQuestion.price)
       } else {
         this.variant__bodyCorrect = false
         this.variant__bodyIncorrect = true
