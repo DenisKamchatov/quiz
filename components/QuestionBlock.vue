@@ -65,7 +65,8 @@ export default {
       background-color: $table-header;
       border-radius: 40px 40px 0 0;
       padding: 30px 20px;
-      margin: -7px 0 0 0;
+      margin: -7px 0 0 -3px;
+      width: 101%;
     }
     &__title {
       text-align: center;

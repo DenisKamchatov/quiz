@@ -168,6 +168,7 @@ export default {
     opacity: 0;
   }
   .main {
+    margin: 100px 0 40px 0;
     &__variants {
       margin: 40px auto 0 auto;
       width: 40%;

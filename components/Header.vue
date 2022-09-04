@@ -34,9 +34,6 @@
       </h5>
     </div>
   </header>
-  <header v-else>
-    Иначе
-  </header>
 </template>
 
 <script>
@@ -73,6 +70,13 @@ export default {
   .header {
     background-color: $background-header;
     padding: 15px 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+    box-shadow: 0 0 10px rgba(34, 34, 34, 0.128);
+
     &__inner {
       display: flex;
       justify-content: space-between;

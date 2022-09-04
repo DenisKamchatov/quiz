@@ -47,6 +47,7 @@ export default {
 <style lang="scss">
   @import "~assets/scss/_variables.scss";
   .main {
+    margin: 100px 0 0 0;
     &__title {
       margin: 80px 0 0 0;
       text-align: center;

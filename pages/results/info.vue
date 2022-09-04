@@ -1,5 +1,5 @@
 <template>
-  <div class="main__result result">
+  <main class="main__result result">
     <div class="result__top">
       <h4 class="result__title">
         Результаты
@@ -32,7 +32,7 @@
     <div class="result__button">
       <Button text="На главную" />
     </div>
-  </div>
+  </main>
 </template>
 
 <script>
@@ -63,7 +63,7 @@ export default {
     background-color: $table-bg;
     border: 7px solid $table-border;
     border-radius: 40px;
-    margin: 40px auto 0 auto;
+    margin: 100px auto 40px auto;
     width: 50%;
     position: relative;
 
