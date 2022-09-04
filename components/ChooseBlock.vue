@@ -58,11 +58,7 @@ export default {
     })
   },
   mounted () {
-    if (this.currentDifficulty) {
-      this.setDifficulty(this.currentDifficulty)
-    } else if (this.$route.params.difficulty) {
-      this.setDifficulty(this.$route.params.difficulty)
-    }
+    this.setDifficulty(this.$route.params.difficulty ? this.$route.params.difficulty : this.currentDifficulty)
   },
   methods: {
     ...mapActions({

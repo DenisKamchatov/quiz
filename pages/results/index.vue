@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import Button from '~/components/UI/Button.vue'
 export default {
   name: 'ResultMain',
@@ -45,7 +45,8 @@ export default {
   computed: {
     ...mapGetters({
       income: 'getIncome',
-      categoryPrice: 'questions/getCurrentCategoryPrice'
+      categoryPrice: 'questions/getCurrentCategoryPrice',
+      category: 'questions/getCurrentCategory'
     }),
     countingIncome () {
       if (this.income >= this.categoryPrice) {
@@ -54,6 +55,14 @@ export default {
         return false
       }
     }
+  },
+  mounted () {
+    this.addCompletedPack(this.category)
+  },
+  methods: {
+    ...mapActions({
+      addCompletedPack: 'setCompletedPack'
+    })
   }
 }
 </script>

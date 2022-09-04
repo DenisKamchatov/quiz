@@ -12,7 +12,7 @@
         quiz
       </h1>
       <h5 class="header__count">
-        Количество пройденных наборов: 0
+        Количество пройденных наборов: {{ countCompletedPacks }}
       </h5>
     </div>
   </header>
@@ -30,7 +30,7 @@
         </h5>
       </div>
       <h5 class="header__count">
-        Количество пройденных наборов: 0
+        Количество пройденных наборов: {{ countCompletedPacks }}
       </h5>
     </div>
   </header>
@@ -52,13 +52,17 @@ export default {
   computed: {
     ...mapGetters({
       income: 'getIncome',
-      categoryPrice: 'questions/getCurrentCategoryPrice'
+      categoryPrice: 'questions/getCurrentCategoryPrice',
+      completedPacks: 'getCountCompletedPacks'
     }),
     getIncome () {
       return this.income
     },
     getCategoryPrice () {
       return this.categoryPrice
+    },
+    countCompletedPacks () {
+      return this.completedPacks
     }
   }
 }

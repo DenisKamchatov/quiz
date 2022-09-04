@@ -13,13 +13,6 @@ export default {
   components: { ChooseBlock },
   data () {
     return {
-      // categories: [
-      //   'Биология',
-      //   'Математика',
-      //   'Литература',
-      //   'География',
-      //   'История'
-      // ]
     }
   },
   computed: {
@@ -32,11 +25,13 @@ export default {
     }
   },
   mounted () {
-    this.findCategories(this.currentDifficulty)
+    this.findCategories(this.$route.params.difficulty ? this.$route.params.difficulty : this.currentDifficulty)
+    this.resetIncome()
   },
   methods: {
     ...mapActions({
-      findCategories: 'questions/findCategoriesByDifficulty'
+      findCategories: 'questions/findCategoriesByDifficulty',
+      resetIncome: 'setIncome'
     })
   }
 }

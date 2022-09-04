@@ -95,7 +95,7 @@ export default {
   data () {
     return {
       difficulty: '',
-      category: (this.$route.params.category || this.currentCategory),
+      category: (this.$route.params.category ? this.$route.params.category : this.currentCategory),
       questionId: Number(this.$route.params.id),
       variant__bodyCorrect: false,
       variant__bodyIncorrect: false,
@@ -122,12 +122,12 @@ export default {
     }
   },
   mounted () {
-    if (this.currentCategory) {
-      this.setCategory(this.currentCategory)
-      this.getQuestion({ category: this.currentCategory, id: this.questionId })
-    } else if (this.$route.params.category) {
+    if (this.$route.params.category) {
       this.getQuestion({ category: this.$route.params.category, id: this.questionId })
       this.setCategory(this.$route.params.category)
+    } else if (this.currentCategory) {
+      this.setCategory(this.currentCategory)
+      this.getQuestion({ category: this.currentCategory, id: this.questionId })
     }
   },
   methods: {
