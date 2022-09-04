@@ -42,47 +42,49 @@
         </h4>
       </div>
     </div>
-    <nuxt-link v-if="(questionId + 1) < countQuestions" :class="[{main__nextBlock: true}]" :to="{name: 'questions-id', params: { id: (questionId + 1), category: category }}" tag="button">
-      <h5 class="main__next-text">
-        Следующий вопрос
-      </h5>
-      <svg
-        id="Layer_1"
-        class="main__next-arrow"
-        style="enable-background:new 0 0 128 128;"
-        version="1.1"
-        viewBox="0 0 128 128"
-        xml:space="preserve"
-        xmlns="http://www.w3.org/2000/svg"
-        xmlns:xlink="http://www.w3.org/1999/xlink"
-      >
-        <g>
-          <polygon points="79.9,98.9 114.8,64 79.9,29.1 74.2,34.8 99.5,60 36,60 36,68 99.5,68 74.2,93.2  " />
-          <rect height="8" width="8" x="16" y="60" />
-        </g>
-      </svg>
-    </nuxt-link>
+    <transition name="fade">
+      <nuxt-link v-if="((questionId + 1) < countQuestions) && (choosedVariant !== -1)" :class="[{main__nextBlock: true}]" :to="{name: 'questions-id', params: { id: (questionId + 1), category: category }}" tag="button">
+        <h5 class="main__next-text">
+          Следующий вопрос
+        </h5>
+        <svg
+          id="Layer_1"
+          class="main__next-arrow"
+          style="enable-background:new 0 0 128 128;"
+          version="1.1"
+          viewBox="0 0 128 128"
+          xml:space="preserve"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+        >
+          <g>
+            <polygon points="79.9,98.9 114.8,64 79.9,29.1 74.2,34.8 99.5,60 36,60 36,68 99.5,68 74.2,93.2  " />
+            <rect height="8" width="8" x="16" y="60" />
+          </g>
+        </svg>
+      </nuxt-link>
 
-    <nuxt-link v-else :class="[{main__nextBlock: true}]" :to="{name: 'results'}" tag="button">
-      <h5 class="main__next-text">
-        К результатам
-      </h5>
-      <svg
-        id="Layer_1"
-        class="main__next-arrow"
-        style="enable-background:new 0 0 128 128;"
-        version="1.1"
-        viewBox="0 0 128 128"
-        xml:space="preserve"
-        xmlns="http://www.w3.org/2000/svg"
-        xmlns:xlink="http://www.w3.org/1999/xlink"
-      >
-        <g>
-          <polygon points="79.9,98.9 114.8,64 79.9,29.1 74.2,34.8 99.5,60 36,60 36,68 99.5,68 74.2,93.2  " />
-          <rect height="8" width="8" x="16" y="60" />
-        </g>
-      </svg>
-    </nuxt-link>
+      <nuxt-link v-else-if="((questionId + 1) >= countQuestions) && (choosedVariant !== -1)" :class="[{main__nextBlock: true}]" :to="{name: 'results'}" tag="button">
+        <h5 class="main__next-text">
+          К результатам
+        </h5>
+        <svg
+          id="Layer_1"
+          class="main__next-arrow"
+          style="enable-background:new 0 0 128 128;"
+          version="1.1"
+          viewBox="0 0 128 128"
+          xml:space="preserve"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+        >
+          <g>
+            <polygon points="79.9,98.9 114.8,64 79.9,29.1 74.2,34.8 99.5,60 36,60 36,68 99.5,68 74.2,93.2  " />
+            <rect height="8" width="8" x="16" y="60" />
+          </g>
+        </svg>
+      </nuxt-link>
+    </transition>
   </main>
 </template>
 
@@ -159,6 +161,12 @@ export default {
 
 <style lang="scss">
   @import "~assets/scss/_variables.scss";
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {
+    opacity: 0;
+  }
   .main {
     &__variants {
       margin: 40px auto 0 auto;
