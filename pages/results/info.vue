@@ -1,5 +1,5 @@
 <template>
-  <div class="main__result result">
+  <main class="main__result result">
     <div class="result__top">
       <h4 class="result__title">
         Результаты
@@ -14,38 +14,44 @@
           ответы
         </h4>
       </div>
-      <div v-for="(question, index) of questions" :key="index" class="result__question-block">
-        <p class="result__question-item">
+      <div v-for="(question, index) of getQuestions" :key="index" class="result__question-block">
+        <p v-if="question.correct" :class="{result__questionItem: true, correct: true}">
           {{ (index + 1) + ') ' + question.question }}
         </p>
-        <p class="result__answer-item">
-          {{ question.answer }}
+        <p v-else :class="{result__questionItem: true, correct: false}">
+          {{ (index + 1) + ') ' + question.question }}
+        </p>
+        <p v-if="question.correct" :class="{result__answerItem: true, correct: true }">
+          {{ question.correctAnswer }}
+        </p>
+        <p v-else :class="{result__answerItem: true, correct: false }">
+          {{ question.correctAnswer }}
         </p>
       </div>
     </div>
     <div class="result__button">
       <Button text="На главную" />
     </div>
-  </div>
+  </main>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import Button from '~/components/UI/Button.vue'
 export default {
   name: 'ResultMain',
   components: { Button },
   data () {
     return {
-      questions: [
-        {
-          question: 'ВОпросв первый ВОпросв первый ВОпросв первый ВОпросв первый',
-          answer: 'Большая волга'
-        },
-        {
-          question: 'Новый Новый Новый Новый НовыйНовый Новый',
-          answer: 'Маленькая волга'
-        }
-      ]
+      correct: false
+    }
+  },
+  computed: {
+    ...mapGetters({
+      category: 'questions/getCurrentCategory'
+    }),
+    getQuestions () {
+      return this.category.questions
     }
   }
 }
@@ -57,7 +63,7 @@ export default {
     background-color: $table-bg;
     border: 7px solid $table-border;
     border-radius: 40px;
-    margin: 40px auto 0 auto;
+    margin: 100px auto 40px auto;
     width: 50%;
     position: relative;
 
@@ -79,12 +85,16 @@ export default {
       align-items: center;
       text-transform: uppercase;
     }
-    &__item, &__answer-item {
+    &__item, &__answerItem {
       flex-basis: 50%;
       text-align: center;
     }
-    &__question-item {
+    &__answerItem {
+      color: $question-incorrect;
+    }
+    &__questionItem {
       flex-basis: 50%;
+      color: $question-incorrect;
     }
     &__question-block {
       display: flex;
@@ -99,5 +109,8 @@ export default {
     &__question-block:not(:first-of-type) {
       margin: 20px 0 0 0;
     }
+  }
+  .correct {
+    color: $question-correct;
   }
 </style>

@@ -13,34 +13,26 @@ export default {
   components: { ChooseBlock },
   data () {
     return {
-      // categories: [
-      //   'Биология',
-      //   'Математика',
-      //   'Литература',
-      //   'География',
-      //   'История'
-      // ]
     }
   },
   computed: {
     ...mapGetters({
-      getCategories: 'questions/getCategoriesByDifficulty'
+      getCategories: 'questions/getCategoriesByDifficulty',
+      currentDifficulty: 'questions/getCurrentDifficulty'
     }),
     categories () {
       return this.getCategories
     }
   },
+  mounted () {
+    this.findCategories(this.$route.params.difficulty ? this.$route.params.difficulty : this.currentDifficulty)
+    this.resetIncome()
+  },
   methods: {
     ...mapActions({
-      findCategories: 'questions/findCategoriesByDifficulty'
+      findCategories: 'questions/findCategoriesByDifficulty',
+      resetIncome: 'setIncome'
     })
-  },
-  mounted () {
-    this.findCategories(this.$route.params.difficulty)
   }
 }
 </script>
-
-<style lang="scss">
-
-</style>

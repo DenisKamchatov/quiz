@@ -1,12 +1,12 @@
 <template>
-  <div class="main__result result">
+  <main class="main__result result">
     <div class="result__top">
       <h4 class="result__title">
         Результаты
       </h4>
     </div>
     <div class="result__body">
-      <h2 v-if="win" class="result__text">
+      <h2 v-if="countingIncome" class="result__text">
         <span class="result__paragraph">
           Поздравляю!
         </span>
@@ -26,21 +26,43 @@
         <Button text="На главную" link="/" />
       </div>
       <div class="result__button-results">
-        <Button text="Посмотреть результаты" link="/results/info" />
+        <Button text="Посмотреть результаты" link="/results/info" type="resetDataIncomes" />
       </div>
     </div>
-  </div>
+  </main>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 import Button from '~/components/UI/Button.vue'
 export default {
   name: 'ResultMain',
   components: { Button },
   data () {
     return {
-      win: true
     }
+  },
+  computed: {
+    ...mapGetters({
+      income: 'getIncome',
+      categoryPrice: 'questions/getCurrentCategoryPrice',
+      category: 'questions/getCurrentCategory'
+    }),
+    countingIncome () {
+      if (this.income >= this.categoryPrice) {
+        return true
+      } else {
+        return false
+      }
+    }
+  },
+  mounted () {
+    this.addCompletedPack(this.category)
+  },
+  methods: {
+    ...mapActions({
+      addCompletedPack: 'setCompletedPack'
+    })
   }
 }
 </script>
@@ -51,7 +73,7 @@ export default {
     background-color: $table-bg;
     border: 7px solid $table-border;
     border-radius: 40px;
-    margin: 40px auto 0 auto;
+    margin: 100px auto 40px auto;
     width: 50%;
     position: relative;
 

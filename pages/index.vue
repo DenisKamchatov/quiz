@@ -27,17 +27,27 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import Button from '~/components/UI/Button.vue'
 export default {
   name: 'IndexPage',
   components: { Button },
-  transition: 'bounce'
+  transition: 'bounce',
+  mounted () {
+    this.resetIncome()
+  },
+  methods: {
+    ...mapActions({
+      resetIncome: 'setIncome'
+    })
+  }
 }
 </script>
 
 <style lang="scss">
   @import "~assets/scss/_variables.scss";
   .main {
+    margin: 100px 0 0 0;
     &__title {
       margin: 80px 0 0 0;
       text-align: center;

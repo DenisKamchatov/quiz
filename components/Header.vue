@@ -12,7 +12,7 @@
         quiz
       </h1>
       <h5 class="header__count">
-        Количество пройденных наборов: 0
+        Количество пройденных наборов: {{ countCompletedPacks }}
       </h5>
     </div>
   </header>
@@ -23,29 +23,43 @@
       </h1>
       <div class="header__income">
         <div class="header__income-bar">
-          <div class="header__income-progress" />
+          <div class="header__income-progress" :style="'width: ' + (getIncome / getCategoryPrice * 100) + '%'" />
         </div>
         <h5 class="header__income-count">
-          Заработок: 1200 из 3500
+          Заработок: {{ getIncome }} из {{ getCategoryPrice }}
         </h5>
       </div>
       <h5 class="header__count">
-        Количество пройденных наборов: 0
+        Количество пройденных наборов: {{ countCompletedPacks }}
       </h5>
     </div>
-  </header>
-  <header v-else>
-    Иначе
   </header>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'Header',
   props: {
     route: {
       type: String,
       default: 'index'
+    }
+  },
+  computed: {
+    ...mapGetters({
+      income: 'getIncome',
+      categoryPrice: 'questions/getCurrentCategoryPrice',
+      completedPacks: 'getCountCompletedPacks'
+    }),
+    getIncome () {
+      return this.income
+    },
+    getCategoryPrice () {
+      return this.categoryPrice
+    },
+    countCompletedPacks () {
+      return this.completedPacks
     }
   }
 }
@@ -56,6 +70,13 @@ export default {
   .header {
     background-color: $background-header;
     padding: 15px 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+    box-shadow: 0 0 10px rgba(34, 34, 34, 0.128);
+
     &__inner {
       display: flex;
       justify-content: space-between;
@@ -74,12 +95,14 @@ export default {
       width: 250px;
       border-radius: 15px;
       position: relative;
+      overflow: hidden;
     }
     &__income-progress {
       position: absolute;
+      left: 0;
+      top: 0;
       height: 15px;
       background-color: $money-bar-fill;
-      width: 50%;
       border-radius: 15px;
     }
     &__income-count {
